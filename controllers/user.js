@@ -39,14 +39,17 @@ hashPassword = (password) => {
  * @returns {json{user.id<id>}}
  */
 exports.getUserFromJWT = async (req, res) => {
-  try {
-    const user = await User.findById(req.userData.userId);
 
-    const {password, ...formatedUser} = user._doc;
-    res.status(200).json(formatedUser);
+  let user;
+
+  try {
+    user = await User.findById(req.userData.userId);
   } catch (e) {
-    res.status(401).json({
+    return res.status(401).json({
       message: 'Fetching user failed', e: e
     });
   }
+  
+  const {password, ...formatedUser} = user._doc;
+  res.status(200).json(formatedUser);
 };

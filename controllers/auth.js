@@ -12,8 +12,11 @@ const User = require('../models/user');
  * @returns {json{message<string> || message<string>, token, expiresIn<number>, userId<string>}}
  */
 exports.login = async (req, res) => {
+
+  let user;
+
   try {
-    const user = await User.findOne({
+    user = await User.findOne({
       email: req.body.email
     });
 
@@ -32,26 +35,29 @@ exports.login = async (req, res) => {
           message: 'Auth failed'
       });
     }
-
-    const {password, ...formatedUser} = user._doc;
-
-    const token = jwtSign({ email: formatedUser.email, userId: formatedUser._id });
-
-    res.status(200).json({
-      token: token,
-      expiresIn: 3600,
-      user: formatedUser
-    });
   } catch (e) {
-    res.status(401).json({
+    return res.status(401).json({
       message: 'Unknown error', e: e
     });
   }
+
+  const {password, ...formatedUser} = user._doc;
+
+  const token = jwtSign({ email: formatedUser.email, userId: formatedUser._id });
+
+  res.status(200).json({
+    token: token,
+    expiresIn: 3600,
+    user: formatedUser
+  });
 };
 
 exports.autoLogin = async (req, res) => {
+
+  let user;
+
   try {
-    const user = await User.findOne({
+    user = await User.findOne({
       email: req.body.email
     });
 
@@ -60,31 +66,31 @@ exports.autoLogin = async (req, res) => {
           message: 'Auth failed'
       });
     }
-
-    const {password, ...formatedUser} = user._doc;
-
-    const token = jwtSign({ email: formatedUser.email, userId: formatedUser._id });
-
-    res.status(200).json({
-      token: token,
-      expiresIn: 3600,
-      user: formatedUser
-    });
   } catch (e) {
-    res.status(401).json({
+    return res.status(401).json({
       message: 'Unknown error', e: e
     });
   }
+
+  const {password, ...formatedUser} = user._doc;
+
+  const token = jwtSign({ email: formatedUser.email, userId: formatedUser._id });
+
+  res.status(200).json({
+    token: token,
+    expiresIn: 3600,
+    user: formatedUser
+  });
 }
 
 /**
  * Create a new token of connexion for the identified user
  */
 jwtSign = ({ email, userId }) => {
-    return jwt.sign(
-      { email: email, userId: userId },
-      process.env.JWT_KEY,
-      { expiresIn: '1h' },
-    );
-  };
+  return jwt.sign(
+    { email: email, userId: userId },
+    process.env.JWT_KEY,
+    { expiresIn: '1h' },
+  );
+};
 
