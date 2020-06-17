@@ -3,27 +3,32 @@ const User = require('../models/user');
 
 /**
  * Async method to create a new User
- * Init the user send by the request
- * Define the default logo for the user
+ * Init the user send by the request and a result response
+ * Hash the user password
+ * Save the user in DB and the response into result
+ * Declare formatedUser as a User without _id and password
+ * push the formatedUser into the body and call next
  *
- * @returns {json{message<string>, result<User> if success}}
+ * @returns {json{message<string>, next() if success}}
  */
 exports.createUser = async (req, res, next) => {
 
-  const user = new User(req.body);
+  let user = new User(req.body);
+  let result;
 
   try {
     user.password = await hashPassword(req.body.password);
-    const result = await user.save();
+    result = await user.save();
+
     const {_id, password, ...formatedUser} = result._doc;
     req.body = formatedUser;
+    
     next();
   } catch (e) {
     res.status(500).json({
       message: 'Creation failed', e: e
     });
   }
-
 };
 
 /**
@@ -51,5 +56,6 @@ exports.getUserFromJWT = async (req, res) => {
   }
   
   const {password, ...formatedUser} = user._doc;
+
   res.status(200).json(formatedUser);
 };
