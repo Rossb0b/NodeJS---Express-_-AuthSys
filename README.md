@@ -1,6 +1,6 @@
 # NodeJS---Express-_-AuthSys
 
-This project is a simple boilerplate for NodeJS API using Mongoose and Express. He only contains two routes; "auth" and "user" that handle an authentification crud.
+This project is a simple boilerplate for NodeJS API using Mongoose and Express. He only contains two routes; "auth" and "user" that handle an authentification system.
 
 ## Env variables
 
