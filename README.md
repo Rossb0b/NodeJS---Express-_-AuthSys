@@ -6,7 +6,7 @@ This project is a simple boilerplate for NodeJS API using Mongoose and Express. 
 
 You must define some in a "nodemon.json" file with the followed structure.
 
-`
+```
 {
     "env": {
         "PORT": "",
@@ -16,7 +16,7 @@ You must define some in a "nodemon.json" file with the followed structure.
         "JWT_KEY": ""
     }
 }
-`
+```
 
 dbUserName, dbUserPassword, dbClusterUrl, and the JWT_KEY are required and not provided by default.
 
