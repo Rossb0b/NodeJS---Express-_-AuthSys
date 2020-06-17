@@ -1,0 +1,8 @@
+{
+    "env": {
+        "dbUserName": "",
+        "dbUserPassword": "",
+        "dbClusterUrl": "",
+        "JWT_KEY": ""
+    }
+}

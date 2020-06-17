@@ -8,7 +8,6 @@
 /bazel-out
 
 # Personnal
-nodemon.json
 
 # dependencies
 /node_modules
